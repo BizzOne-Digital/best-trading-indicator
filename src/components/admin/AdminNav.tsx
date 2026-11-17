@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import {
-  BadgeCheck, BookOpen, CreditCard, FileText, HelpCircle, Home, Image as ImageIcon, LayoutDashboard, LayoutTemplate, LogOut, Menu, MessageSquare,
-  Repeat, Search, Settings, ShoppingCart, Sparkles, Star, Users, Video, X, ScrollText, Tag,
+  BadgeCheck, BookOpen, CreditCard, FileText, HelpCircle, Home, LayoutDashboard, LayoutTemplate, LogOut, Menu, MessageSquare,
+  Repeat, Settings, ShoppingCart, Sparkles, Star, Users, X, Tag,
 } from "lucide-react";
 import Logo from "../Logo";
 
@@ -22,12 +22,8 @@ const NAV: [string, string, typeof Home][] = [
   ["/admin/blogs", "Blogs", BookOpen],
   ["/admin/faqs", "FAQ", HelpCircle],
   ["/admin/inquiries", "Contact Inquiries", MessageSquare],
-  ["/admin/media", "Images / Media", ImageIcon],
-  ["/admin/settings?tab=video", "Videos", Video],
   ["/admin/legal", "Legal Pages", FileText],
-  ["/admin/settings?tab=seo", "SEO", Search],
   ["/admin/settings?tab=site", "Website Settings", Settings],
-  ["/admin/audit", "Audit Log", ScrollText],
 ];
 
 export default function AdminNav({ email }: { email: string }) {
