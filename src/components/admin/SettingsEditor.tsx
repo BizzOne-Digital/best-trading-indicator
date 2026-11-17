@@ -1,6 +1,5 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { Loader2, Save } from "lucide-react";
 import { SETTINGS_TABS } from "@/lib/admin-resources";
 import LocalImageField from "./LocalImageField";
@@ -8,7 +7,7 @@ import LocalImageField from "./LocalImageField";
 const inp = "w-full rounded-lg border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent";
 
 export default function SettingsEditor({ tab }: { tab: string }) {
-  const cfg = SETTINGS_TABS[tab] ?? SETTINGS_TABS.hero;
+  const cfg = SETTINGS_TABS.site; void tab;
   const [data, setData] = useState<Record<string, unknown> | null>(null);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -24,7 +23,7 @@ export default function SettingsEditor({ tab }: { tab: string }) {
     const r = await fetch("/api/admin/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     const j = await r.json().catch(() => ({}));
     setSaving(false);
-    setMsg(r.ok ? { ok: true, text: "Saved — the live site is updated." } : { ok: false, text: j.error ?? "Save failed" });
+    setMsg(r.ok ? { ok: true, text: "Saved â€” the live site is updated." } : { ok: false, text: j.error ?? "Save failed" });
   }
 
   if (!data) return <Loader2 className="h-6 w-6 animate-spin text-accent" />;
@@ -32,11 +31,6 @@ export default function SettingsEditor({ tab }: { tab: string }) {
 
   return (
     <div className="max-w-3xl">
-      <div className="mb-6 flex flex-wrap gap-2">
-        {Object.entries(SETTINGS_TABS).map(([k, t]) => (
-          <Link key={k} href={`/admin/settings?tab=${k}`} className={`rounded-lg border px-3 py-1.5 text-sm ${k === tab ? "border-accent text-accent" : "border-line text-muted"}`}>{t.label}</Link>
-        ))}
-      </div>
       <h1 className="mb-6 text-2xl font-extrabold">{cfg.label}</h1>
       <div className="space-y-5 rounded-2xl border border-line bg-bg2 p-6">
         {cfg.fields.map((f) => (
