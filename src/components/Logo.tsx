@@ -1,4 +1,6 @@
-/** Original BTI logo: ascending candle bars with an integrated up-arrow + italic wordmark. */
+import Image from "next/image";
+
+/** Small BTI mark (candles + arrow), used in tiny UI spots such as the chart toolbar. */
 export function LogoMark({ size = 40, className }: { size?: number; className?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" className={className} aria-hidden>
@@ -17,19 +19,17 @@ export function LogoMark({ size = 40, className }: { size?: number; className?: 
   );
 }
 
-export default function Logo({ light = false, compact = false }: { light?: boolean; compact?: boolean }) {
-  const fg = light ? "#050B15" : "#F8FAFC";
+/** Official brand logo (symbol + "BTI" + "Best Trading Indicator") from /public/logo.png. */
+export default function Logo({ compact = false }: { light?: boolean; compact?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-2.5">
-      <LogoMark size={compact ? 32 : 40} />
-      <span className="font-head text-[28px] font-extrabold italic leading-none tracking-tight" style={{ color: fg }}>BTI</span>
-      {!compact && (
-        <span className="hidden border-l pl-2.5 text-[13px] font-semibold leading-tight sm:block" style={{ color: fg, borderColor: light ? "#c8d3e0" : "#2b3c52" }}>
-          Best Trading
-          <br />
-          Indicator
-        </span>
-      )}
-    </span>
+    <Image
+      src="/logo.png"
+      alt="BTI – Best Trading Indicator"
+      width={1672}
+      height={941}
+      priority
+      sizes="160px"
+      className={compact ? "h-10 w-auto" : "h-12 w-auto sm:h-14"}
+    />
   );
 }
