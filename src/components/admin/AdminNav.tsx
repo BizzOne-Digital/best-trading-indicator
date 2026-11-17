@@ -3,15 +3,13 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import {
-  BadgeCheck, BookOpen, CreditCard, FileText, HelpCircle, Home, LayoutDashboard, LayoutTemplate, LogOut, Menu, MessageSquare,
+  BadgeCheck, BookOpen, CreditCard, FileText, HelpCircle, LayoutDashboard, LogOut, Menu, MessageSquare,
   Repeat, Settings, ShoppingCart, Sparkles, Star, Users, X, Tag,
 } from "lucide-react";
 import Logo from "../Logo";
 
-const NAV: [string, string, typeof Home][] = [
+const NAV: [string, string, typeof Settings][] = [
   ["/admin", "Dashboard", LayoutDashboard],
-  ["/admin/settings?tab=pages", "Pages", LayoutTemplate],
-  ["/admin/settings?tab=hero", "Homepage Content", Home],
   ["/admin/features", "Features", Sparkles],
   ["/admin/plans", "Pricing Plans", Tag],
   ["/admin/orders", "Orders", ShoppingCart],
