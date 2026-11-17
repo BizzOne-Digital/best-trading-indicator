@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BTI – Best Trading Indicator
 
-## Getting Started
+A Next.js 15 (App Router) site with Stripe subscriptions, MongoDB and an admin panel at `/admin`.
 
-First, run the development server:
+## Setup
+1. Copy `.env.example` to `.env.local` and fill in the values. Use Stripe **test** keys first.
+2. Run `npm install`, then `npm run dev`.
+3. Open `/admin/login` and sign in with `ADMIN_EMAIL` / `ADMIN_PASSWORD`. The first admin account is created on that first login. Default features, plans, FAQs and legal drafts are added to the database automatically.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Stripe
+- Webhook endpoint: `https://YOUR_DOMAIN/api/stripe/webhook`
+- Events to send: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `checkout.session.expired`, `invoice.paid`, `invoice.payment_failed`, `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`
+- To test locally: `stripe listen --forward-to localhost:3000/api/stripe/webhook`. Put the `whsec_…` it prints into `STRIPE_WEBHOOK_SECRET`.
+- Turn on the **Customer Portal** in Stripe (Settings → Billing → Customer portal) so customers can cancel and update their cards.
+- Google Pay and Apple Pay show up automatically once they are enabled under Payment methods in the Stripe Dashboard.
+- Orders change to *paid* **only** when a webhook confirms the payment. The success page never activates anything.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Daily workflow: granting TradingView access
+1. When someone pays, an email goes to `NOTIFY_EMAIL` and a **Pending** record appears in Admin → TradingView Access.
+2. Add their username to the invite-only script in TradingView.
+3. Set the record to **Granted**. The customer gets an email automatically.
+4. Records flagged **Needs attention** (refund, cancellation or failed renewal) need you to revoke or check access in TradingView. Then set the status to **Revoked**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content rules
+- The customer count and rating stay hidden until you turn them on in Homepage Content, and only once they are verified.
+- Every chart is labelled *illustrative* until real BTI screenshots are uploaded (Pages → Before/After, Images/Media).
+- Legal pages show a "draft pending review" banner until you tick **Approved** in Legal Pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy (Vercel)
+Add every variable from `.env.example` to the Vercel project. Set `NEXT_PUBLIC_SITE_URL=https://besttradingindicator.us`. Uploaded images are stored in MongoDB, so they survive redeploys.
