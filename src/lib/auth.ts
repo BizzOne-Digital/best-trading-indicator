@@ -14,7 +14,7 @@ export async function ensureBootstrapAdmin() {
   await connectDB();
   const count = await AdminUser.countDocuments();
   const email = process.env.ADMIN_EMAIL, pw = process.env.ADMIN_PASSWORD;
-  if (count === 0 && email && pw && pw.length >= 10) {
+  if (count === 0 && email && pw && pw.length >= 8) {
     await AdminUser.create({ email, name: "Owner", passwordHash: await bcrypt.hash(pw, 12) });
   }
 }
