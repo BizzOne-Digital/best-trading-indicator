@@ -19,7 +19,10 @@ function Cell({ name, v }: { name: string; v: any }) {
   if (/At$|End$/.test(name)) return <span className="whitespace-nowrap text-xs">{fmtDate(v)}</span>;
   if (name === "status") return <StatusPill v={v} />;
   if (name === "attention") return <span className="inline-flex items-center gap-1 text-xs text-yellow-300"><AlertTriangle className="h-3.5 w-3.5" />{v}</span>;
-  if (name === "url") return /* eslint-disable-next-line @next/next/no-img-element */ <img src={v} alt="" className="h-10 w-16 rounded object-cover" />;
+  if (name === "url") {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={v} alt="" className="h-10 w-16 rounded object-cover" />;
+  }
   if (name === "amount") return <span className="font-mono">${v}</span>;
   return <span className="line-clamp-2">{String(v)}</span>;
 }
